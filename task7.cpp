@@ -2,12 +2,22 @@
 #include <algorithm>
 using namespace std;
 
+void printArray(int arr[], int size)
+{
+    cout << endl;
+    for (int i = 0; i < size; i++)
+    {
+        cout << arr[i] << "  ";
+    }
+}
+
 int main()
 {
-    int arr[10] = {11, 22, 33, 22, 33, 44, 22, 11, 22, 33}, count = 1, size = 10, newSize = 1;
+    int arr[9] = {11, 11, 22, 22, 33, 33, 44, 44, 44}, count = 1, size = 9, newSize = 1;
 
     int min, temp, min_index;
 
+    // sorting the array
     for (int i = 0; i < size; i++)
     {
         min = arr[i];
@@ -25,6 +35,12 @@ int main()
         arr[min_index] = temp;
     }
 
+    cout << endl
+         << endl
+         << "SORTED ARRAY --> ";
+    printArray(arr, size);
+
+    // counting the number of elements
     for (int i = 0; i < size - 1; i++)
     {
         if (arr[i + 1] != arr[i])
@@ -33,11 +49,16 @@ int main()
         }
     }
 
+    cout << "\n\nTOTAL DIFFERENT ELEMENTS-->" << newSize << endl;
+
+    // it will double the array size for the element is followed by number of its occurences
     int newArr[newSize * 2], j = 0;
 
+    // create an array of elements followed by its number of occurences
     for (int i = 0; i < size; i++)
     {
-        if (arr[i + 1] != arr[i])
+
+        if (arr[i] != arr[i + 1])
         {
             newArr[j] = arr[i];
             newArr[j + 1] = count;
@@ -49,21 +70,54 @@ int main()
         {
             count++;
         }
+        // if (i == size - 1)
+        // {
+        //     newArr[j] = arr[i];
+        //     newArr[j + 1] = count;
+        //     break;
+        // }
     }
 
-    int max = newArr[1], mode;
+    printArray(newArr, newSize * 2);
+
+    int max = newArr[1],
+        mode, maxCount = 0;
+
     for (int i = 1; i < newSize * 2; i = i + 2)
     {
-        if (max < newArr[i])
+        if (max <= newArr[i])
         {
             max = newArr[i];
-            mode = newArr[i - 1];
+        }
+    }
+
+    for (int i = 1; i < newSize * 2; i = i + 2)
+    {
+        if (max == newArr[i])
+        {
+            maxCount++;
+        }
+    }
+
+    int modeArray[maxCount], k = 0;
+
+    for (int i = 1; i < newSize * 2; i = i + 2)
+    {
+        if (newArr[i] == max)
+        {
+            modeArray[k] = newArr[i - 1];
+            k++;
         }
     }
 
     cout << endl
-         << "Frequency: " << max << endl
-         << "Mode Value: " << mode;
+         << "MODE VALUE/s--> ";
+
+    printArray(modeArray, maxCount);
+    // for (int i = 0; i < maxCount; i++)
+    // {
+    //     cout << modeArray[i] << "  ";
+    // }
 
     return 0;
 }
